@@ -17,7 +17,7 @@ D3DXMATRIX				g_worldMatrix;										//虎のワールド行列。モデルローカル空間から
 D3DXVECTOR3				g_position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//虎の座標。
 float					g_currentAngleY = 0.0f;
 float					g_targetAngleY = 0.0f;
-const float				g_cTurnSpeed = D3DXToRadian(20.0f);
+const float				g_cTurnSpeed = D3DXToRadian(10.0f);
 float					g_turnSpeed = 0.0f;
 /*!
 *@brief	虎の更新処理。
