@@ -16,8 +16,6 @@ LPDIRECT3D9             g_pD3D = NULL;
 LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 ID3DXEffect*			g_pEffect = NULL;	
 
-D3DXMATRIX				g_viewMatrix;		//ビュー行列。カメラ行列とも言う。
-D3DXMATRIX				g_projectionMatrix;	//プロジェクション行列。ビュー空間から射影空間に変換する行列。
 D3DXMATRIX				g_worldMatrix;		//ワールド行列。モデルローカル空間から、ワールド空間に変換する行列。
 D3DXMATRIX				g_rotationMatrix;	//回転行列。法線を回すために必要なので別途用意。
 
@@ -30,6 +28,12 @@ static const int		LIGHT_NUM = 4;
 D3DXVECTOR4 			g_diffuseLightDirection[LIGHT_NUM];	//ライトの方向。
 D3DXVECTOR4				g_diffuseLightColor[LIGHT_NUM];		//ライトの色。
 D3DXVECTOR4				g_ambientLight;						//環境光
+
+//@カメラクラスを作るためのヒント。これらはカメラクラスのメンバ変数に変更する必要がある。
+D3DXMATRIX				g_viewMatrix;		//ビュー行列。カメラ行列とも言う。
+D3DXMATRIX				g_projectionMatrix;	//プロジェクション行列。ビュー空間から射影空間に変換する行列。
+
+
 /*!
  *@brief	シェーダーエフェクトファイル(*.fx)をロード。
  */
@@ -90,15 +94,13 @@ HRESULT InitD3D(HWND hWnd)
 
 /*!
  *@brief	プロジェクション行列の初期化。
+ * @カメラクラスを作るためのヒント。カメラのクラスのメンバ変数にする必要がある。
  */
 void InitProjectionMatrix()
 {
-	D3DXMatrixIdentity( &g_worldMatrix );
-	D3DXMatrixIdentity( &g_rotationMatrix );
-	
-	D3DXVECTOR3 vEyePt( 0.0f, 3.0f,-5.0f );
-    D3DXVECTOR3 vLookatPt( 0.0f, 0.0f, 0.0f );
-    D3DXVECTOR3 vUpVec( 0.0f, 1.0f, 0.0f );
+	D3DXVECTOR3 vEyePt( 0.0f, 3.0f,-5.0f );			//カメラクラスを作るためのヒント。カメラの視点。この辺りはメンバ変数に変更する。
+    D3DXVECTOR3 vLookatPt( 0.0f, 0.0f, 0.0f );		//カメラクラスを作るためのヒント。カメラの注視点。どこを見ているかという情報。この辺りはメンバ変数に変更する。
+    D3DXVECTOR3 vUpVec( 0.0f, 1.0f, 0.0f );			//カメラクラスを作るためのヒント。カメラの上方向。基本的にY方向でかまわない。基本的には・・・。この辺りはメンバ変数に変更する。
     D3DXMATRIXA16 matView;
     D3DXMatrixLookAtLH( &g_viewMatrix, &vEyePt, &vLookatPt, &vUpVec );
     
@@ -182,9 +184,9 @@ VOID Render()
 		//ワールド行列の転送。
 		g_pEffect->SetMatrix("g_worldMatrix", &g_worldMatrix);
 		//ビュー行列の転送。
-		g_pEffect->SetMatrix("g_viewMatrix", &g_viewMatrix);
+		g_pEffect->SetMatrix("g_viewMatrix", &g_viewMatrix);				//@カメラクラスを作るためのヒント。 カメラクラスのゲッターを使用するようにする。
 		//プロジェクション行列の転送。
-		g_pEffect->SetMatrix("g_projectionMatrix", &g_projectionMatrix);
+		g_pEffect->SetMatrix("g_projectionMatrix", &g_projectionMatrix);	//@カメラクラスを作るためのヒント。 カメラクラスのゲッターを使用するようにする。
 		//回転行列を転送。
 		g_pEffect->SetMatrix( "g_rotationMatrix", &g_rotationMatrix );
 		//ライトの向きを転送。
@@ -344,6 +346,10 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
 			ZeroMemory( g_diffuseLightDirection, sizeof(g_diffuseLightDirection) );
 			ZeroMemory( g_diffuseLightColor, sizeof(g_diffuseLightColor) );
 			
+			D3DXMatrixIdentity(&g_worldMatrix);
+			D3DXMatrixIdentity(&g_rotationMatrix);
+
+
 			InitProjectionMatrix();
 			// Show the window
 			ShowWindow(hWnd, SW_SHOWDEFAULT);
