@@ -4,8 +4,8 @@
 ・メンバ変数に下記を保持する。カメラの視点、注視点、上方向、ビュー行列、プロジェクション行列を保持する。
     D3DXVECTOR3 m_position;		//カメラの視点。
 	D3DXVECTOR3 m_target;		//カメラの注視点。
-    D3DXVECTOR3 m_up;			//カメラの上方向。
-	D3DXMATRIX	m_viewMatrix;	//カメラ行列。
+	D3DXMATRIX	m_viewMatrix;	//カメラ行列。    D3DXVECTOR3 m_up;			//カメラの上方向。
+
 	D3DXMATRIX	m_projMatrix;	//プロジェクション行列。
 
 ・メンバ関数は下記を保持する。
