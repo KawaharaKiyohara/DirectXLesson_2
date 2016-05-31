@@ -95,11 +95,11 @@ void Tiger::Render(
 	//ワールド行列の転送。
 	effect->SetMatrix("g_worldMatrix", &mWorld);
 	//ビュー行列の転送。
-	effect->SetMatrix("g_viewMatrix", &viewMatrix);				//ビュー行列を転送。
+	effect->SetMatrix("g_viewMatrix", &viewMatrix);			//ビュー行列を転送。
 																		
-	effect->SetMatrix("g_projectionMatrix", &projMatrix);		//プロジェクション行列の転送。
+	effect->SetMatrix("g_projectionMatrix", &projMatrix);	//プロジェクション行列の転送。
 															
-	effect->SetMatrix("g_rotationMatrix", &mRotation);	//回転行列を転送。
+	effect->SetMatrix("g_rotationMatrix", &mRotation);		//回転行列を転送。
 	//ライトの向きを転送。
 	effect->SetVectorArray("g_diffuseLightDirection", diffuseLightDirection, numDiffuseLight);
 	//ライトのカラーを転送。
