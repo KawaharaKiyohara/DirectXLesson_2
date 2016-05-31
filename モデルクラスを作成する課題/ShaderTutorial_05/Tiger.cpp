@@ -136,6 +136,7 @@ void Tiger::Release()
 			}
 		}
 		delete[] textures;
+		textures = NULL;
 	}
 	//エフェクトを開放。
 	if (effect != NULL) {
