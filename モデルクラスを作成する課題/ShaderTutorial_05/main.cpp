@@ -8,10 +8,8 @@
 //-----------------------------------------------------------------------------
 // グローバル変数。
 //-----------------------------------------------------------------------------
-LPDIRECT3D9             g_pD3D = NULL;		
-LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 
-static const int		LIGHT_NUM = 4;
+const int				LIGHT_NUM = 4;
 D3DXVECTOR4 			g_diffuseLightDirection[LIGHT_NUM];	//ライトの方向。
 D3DXVECTOR4				g_diffuseLightColor[LIGHT_NUM];		//ライトの色。
 D3DXVECTOR4				g_ambientLight;						//環境光
@@ -20,43 +18,8 @@ const int NUM_TIGER = 50;	//トラの数。
 Camera camera;				//カメラ。
 Tiger tiger[NUM_TIGER];		//虎。
 
-//-----------------------------------------------------------------------------
-// DirectXを初期化。
-//-----------------------------------------------------------------------------
-void InitD3D(HWND hWnd)
-{
-	//D3Dオブジェクトを作成する。
-	g_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
-	
-	// D3Dデバイスを作成するためのパラメータを設定する。
-	D3DPRESENT_PARAMETERS d3dpp;
-	ZeroMemory(&d3dpp, sizeof(d3dpp));
-	d3dpp.Windowed = TRUE;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
-	d3dpp.EnableAutoDepthStencil = TRUE;
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
-	//D3Dデバイスを作成する。
-	g_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-		&d3dpp, &g_pd3dDevice);
 
-}
 
-//-----------------------------------------------------------------------------
-//開放処理。
-//-----------------------------------------------------------------------------
-VOID Cleanup()
-{
-	for (int i = 0; i < NUM_TIGER; i++) {
-		tiger[i].Release();
-	}
-	if (g_pd3dDevice != NULL)
-		g_pd3dDevice->Release();
-
-	if (g_pD3D != NULL)
-		g_pD3D->Release();
-}
 /*!-----------------------------------------------------------------------------
  *@brief	ライトを更新。
  -----------------------------------------------------------------------------*/
@@ -77,90 +40,13 @@ void UpdateLight()
 	g_ambientLight = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 //-----------------------------------------------------------------------------
-// Name: 描画処理。
+// Name: ゲームを初期化。
 //-----------------------------------------------------------------------------
-VOID Render()
+void Init()
 {
-	// 画面をクリア。
-	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
-
-	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
-	{
-		for (int i = 0; i < NUM_TIGER; i++) {
-			tiger[i].Render(
-				g_pd3dDevice,
-				camera.GetViewMatrix(),
-				camera.GetProjectionMatrix(),
-				g_diffuseLightDirection,
-				g_diffuseLightColor,
-				g_ambientLight,
-				LIGHT_NUM
-				);
-		}
-		// End the scene
-		g_pd3dDevice->EndScene();
-	}
-
-	// Present the backbuffer contents to the display
-	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
-}
-/*!-----------------------------------------------------------------------------
- *@brief	更新処理。
- -----------------------------------------------------------------------------*/
-void Update()
-{
-	UpdateLight();
-	camera.Update();
-	for (int i = 0; i < NUM_TIGER; i++) {
-		tiger[i].Update();
-	}
-}
-//-----------------------------------------------------------------------------
-// メッセージプロシージャ。
-//-----------------------------------------------------------------------------
-LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg)
-	{
-	case WM_DESTROY:
-		Cleanup();
-		PostQuitMessage(0);
-		return 0;
-	}
-
-	return DefWindowProc(hWnd, msg, wParam, lParam);
-}
-//-----------------------------------------------------------------------------
-// ウィンメイン。
-//-----------------------------------------------------------------------------
-INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
-{
-	UNREFERENCED_PARAMETER(hInst);
-
-	// Register the window class
-	WNDCLASSEX wc =
-	{
-		sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
-		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-		"Shader Tutorial", NULL
-	};
-	RegisterClassEx(&wc);
-
-	// Create the application's window
-	HWND hWnd = CreateWindow("Shader Tutorial", "Shader Tutorial 00",
-		WS_OVERLAPPEDWINDOW, 100, 100, 900, 900,
-		NULL, NULL, wc.hInstance, NULL);
+	//ライトを初期化。
 	ZeroMemory( g_diffuseLightDirection, sizeof(g_diffuseLightDirection) );
 	ZeroMemory( g_diffuseLightColor, sizeof(g_diffuseLightColor) );
-	// Direct3Dを初期化。
-	InitD3D(hWnd);
-
-	
-	// Show the window
-	ShowWindow(hWnd, SW_SHOWDEFAULT);
-	UpdateWindow(hWnd);
-
-	//ここからゲーム関係の初期化。
 	
 	//虎を初期化。
 	for (int i = 0; i < NUM_TIGER; i++) {
@@ -172,23 +58,54 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
 	//カメラの初期化。
 	camera.Init();
 
-	// ゲームループ
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg));
-	while (msg.message != WM_QUIT)
-	{
-		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-		else {
-			Update();
-			Render();
-		}
+}
+//-----------------------------------------------------------------------------
+// Name: 描画処理。
+//-----------------------------------------------------------------------------
+VOID Render()
+{
+	// 画面をクリア。
+	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+	//シーンの描画開始。
+	g_pd3dDevice->BeginScene();
+	//トラを描画。
+	for (int i = 0; i < NUM_TIGER; i++) {
+		tiger[i].Render(
+			g_pd3dDevice,
+			camera.GetViewMatrix(),
+			camera.GetProjectionMatrix(),
+			g_diffuseLightDirection,
+			g_diffuseLightColor,
+			g_ambientLight,
+			LIGHT_NUM
+			);
 	}
 	
-
-	UnregisterClass("Shader Tutorial", wc.hInstance);
-	return 0;
+	// シーンの描画終了。
+	g_pd3dDevice->EndScene();
+	// バックバッファとフロントバッファを入れ替える。
+	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+}
+/*!-----------------------------------------------------------------------------
+ *@brief	更新処理。
+ -----------------------------------------------------------------------------*/
+void Update()
+{
+	//ライトの更新。
+	UpdateLight();
+	//カメラの更新
+	camera.Update();
+	//虎の更新。
+	for (int i = 0; i < NUM_TIGER; i++) {
+		tiger[i].Update();
+	}
+}
+//-----------------------------------------------------------------------------
+//ゲームが終了するときに呼ばれる処理。
+//-----------------------------------------------------------------------------
+void Terminate()
+{
+	for (int i = 0; i < NUM_TIGER; i++) {
+		tiger[i].Release();
+	}
 }

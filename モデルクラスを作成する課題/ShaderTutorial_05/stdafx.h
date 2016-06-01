@@ -5,3 +5,5 @@
 #include <strsafe.h>
 #pragma warning( default : 4996 )
 #include <cstdlib>
+
+#include "lib/System.h"

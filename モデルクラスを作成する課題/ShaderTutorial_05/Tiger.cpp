@@ -64,7 +64,7 @@ void Tiger::Init(LPDIRECT3DDEVICE9 pd3dDevice)
 		&effect,
 		&compileErrorBuffer
 		);
-	if (FAILED(hr)) {
+	if (hr != S_OK) {
 		MessageBox(NULL, (char*)(compileErrorBuffer->GetBufferPointer()), "error", MB_OK);
 		std::abort();
 	}
