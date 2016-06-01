@@ -83,9 +83,7 @@ VOID Render()
 {
 	// ‰æ–Ê‚ðƒNƒŠƒAB
 	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
-	
-	static int renderCount = 0;
-	
+
 	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
 	{
 		for (int i = 0; i < NUM_TIGER; i++) {
