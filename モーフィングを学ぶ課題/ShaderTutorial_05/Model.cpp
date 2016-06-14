@@ -183,9 +183,9 @@ void Model::Morphing(Model* morphTargetA, Model* morphTargetB, float rate)
 	targetVertexBuffer_A->Lock(0, desc.Size, (void**)&targetVertexPos_A, D3DLOCK_DISCARD);
 	targetVertexBuffer_B->Lock(0, desc.Size, (void**)&targetVertexPos_B, D3DLOCK_DISCARD);
 	for (int vertNo = 0; vertNo < targetMesh_A->GetNumVertices(); vertNo++) {
-		vertexPos->x = targetVertexPos_B->x * (1.0f - rate) + targetVertexPos_A->x * rate;
-		vertexPos->y = targetVertexPos_B->y * (1.0f - rate) + targetVertexPos_A->y * rate;
-		vertexPos->z = targetVertexPos_B->z * (1.0f - rate) + targetVertexPos_A->z * rate;
+		vertexPos->x = targetVertexPos_B->x * (rate) + targetVertexPos_A->x * (1.0f-rate);
+		vertexPos->y = targetVertexPos_B->y * (rate) + targetVertexPos_A->y * (1.0f-rate);
+		vertexPos->z = targetVertexPos_B->z * (rate) + targetVertexPos_A->z * (1.0f-rate);
 
 		//ŽŸ‚Ì’¸“_‚ÖB
 		char* p = (char*)vertexPos;
@@ -201,7 +201,7 @@ void Model::Morphing(Model* morphTargetA, Model* morphTargetB, float rate)
 	vertexBuffer->Unlock();
 	targetVertexBuffer_A->Unlock();
 	targetVertexBuffer_B->Unlock();
-	vertexBuffer->Release();
+	/*vertexBuffer->Release();
 	targetVertexBuffer_A->Release();
-	targetVertexBuffer_B->Release();
+	targetVertexBuffer_B->Release();*/
 }

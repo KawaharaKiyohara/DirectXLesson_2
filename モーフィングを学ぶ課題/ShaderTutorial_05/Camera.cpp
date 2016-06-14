@@ -101,8 +101,8 @@ void Camera::Update()
 //ÉJÉÅÉâÇÃèâä˙âªÅB
 void Camera::Init()
 {
-	vEyePt = D3DXVECTOR3(5.0f, 1.0f, 0.0f);
-	vLookatPt = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	vEyePt = D3DXVECTOR3(0.0f, 0.5f, 2.0f);
+	vLookatPt = D3DXVECTOR3(0.0f, 0.5f, 0.0f);
 	vUpVec = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	Update();

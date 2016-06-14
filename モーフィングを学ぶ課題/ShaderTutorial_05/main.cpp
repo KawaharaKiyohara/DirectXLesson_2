@@ -41,8 +41,8 @@ void Init()
 	camera.Init();
 
 	originalModel.Init(g_pd3dDevice, "org.X");			//オリジナルモデルをロード。
-	morphTargetA.Init(g_pd3dDevice, "morphTarget.X");	//モーフターゲットをロード。
-	morphTargetB.Init(g_pd3dDevice, "org.X");			//モーフターゲットをロード。
+	morphTargetA.Init(g_pd3dDevice, "morphTargetA.X");	//モーフターゲットAをロード。
+	morphTargetB.Init(g_pd3dDevice, "morphTargetB.X");	//モーフターゲットBをロード。
 }
 //-----------------------------------------------------------------------------
 // Name: 描画処理。
@@ -78,10 +78,10 @@ VOID Render()
 void Update()
 {
 	if (GetAsyncKeyState(VK_LEFT)) {
-		morphRate = max(0.0f, morphRate - 0.01f);
+		morphRate = max(0.0f, morphRate - 0.03f);
 	}
 	if (GetAsyncKeyState(VK_RIGHT)) {
-		morphRate = min(1.0f, morphRate + 0.01f);
+		morphRate = min(1.0f, morphRate + 0.03f);
 	}
 	originalModel.Morphing(&morphTargetA, &morphTargetB, morphRate);
 	//ライトの更新。
