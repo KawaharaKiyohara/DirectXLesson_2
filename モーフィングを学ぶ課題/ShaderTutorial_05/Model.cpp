@@ -201,7 +201,7 @@ void Model::Morphing(Model* morphTargetA, Model* morphTargetB, float rate)
 	vertexBuffer->Unlock();
 	targetVertexBuffer_A->Unlock();
 	targetVertexBuffer_B->Unlock();
-	/*vertexBuffer->Release();
+	vertexBuffer->Release();
 	targetVertexBuffer_A->Release();
-	targetVertexBuffer_B->Release();*/
+	targetVertexBuffer_B->Release();
 }
