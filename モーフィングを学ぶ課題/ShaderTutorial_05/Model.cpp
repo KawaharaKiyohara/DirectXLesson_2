@@ -183,10 +183,9 @@ void Model::Morphing(Model* morphTargetA, Model* morphTargetB, float rate)
 	targetVertexBuffer_A->Lock(0, desc.Size, (void**)&targetVertexPos_A, D3DLOCK_DISCARD);
 	targetVertexBuffer_B->Lock(0, desc.Size, (void**)&targetVertexPos_B, D3DLOCK_DISCARD);
 	for (int vertNo = 0; vertNo < targetMesh_A->GetNumVertices(); vertNo++) {
-		vertexPos->x = targetVertexPos_B->x * (rate) + targetVertexPos_A->x * (1.0f-rate);
-		vertexPos->y = targetVertexPos_B->y * (rate) + targetVertexPos_A->y * (1.0f-rate);
-		vertexPos->z = targetVertexPos_B->z * (rate) + targetVertexPos_A->z * (1.0f-rate);
-
+		///////////////////////////////////////////////////////////////////
+		//ここに頂点モーフの処理を記述する。
+		///////////////////////////////////////////////////////////////////
 		//次の頂点へ。
 		char* p = (char*)vertexPos;
 		p += stride;
@@ -198,6 +197,7 @@ void Model::Morphing(Model* morphTargetA, Model* morphTargetB, float rate)
 		p += stride;
 		targetVertexPos_B = (D3DXVECTOR3*)p;
 	}
+	//頂点バッファをアンロック。
 	vertexBuffer->Unlock();
 	targetVertexBuffer_A->Unlock();
 	targetVertexBuffer_B->Unlock();
