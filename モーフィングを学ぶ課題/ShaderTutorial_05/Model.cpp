@@ -188,6 +188,7 @@ void Model::Morphing(Model* morphTargetA, Model* morphTargetB, float rate)
 		///////////////////////////////////////////////////////////////////
 		//éüÇÃí∏ì_Ç÷ÅB
 		char* p = (char*)vertexPos;
+
 		p += stride;
 		vertexPos = (D3DXVECTOR3*)p;
 		p = (char*)targetVertexPos_A;
