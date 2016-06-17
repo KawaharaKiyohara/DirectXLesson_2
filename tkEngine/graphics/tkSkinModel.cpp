@@ -145,14 +145,6 @@ namespace tkEngine{
 							//ボーン行列のアクセスの仕方		g_pBoneMatrices[boneIndex[bone]]
 							//スキンウェイト					orgVertex->blendWeight[bone]
 							///////////////////////////////////////////////////////////////////
-							for (int bone = 0; bone < pMeshContainer->NumInfl; bone++) {
-								D3DXVECTOR4 vTmp;
-								D3DXVec4Transform(&vTmp, &orgVertex->position, &g_pBoneMatrices[boneIndex[bone]]);
-								vTmp *= orgVertex->blendWeight[bone];
-								vertex->position.x += vTmp.x;
-								vertex->position.y += vTmp.y;
-								vertex->position.z += vTmp.z;
-							}
 							//次の頂点へ。
 							vertex++;
 							orgVertex++;
