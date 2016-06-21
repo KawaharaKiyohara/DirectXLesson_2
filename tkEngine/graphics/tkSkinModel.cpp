@@ -146,6 +146,14 @@ namespace tkEngine{
 							//スキンウェイト					orgVertex->blendWeight[bone]
 							///////////////////////////////////////////////////////////////////
 							//次の頂点へ。
+							for (int bone = 0; bone < 2; bone++) {
+								D3DXVECTOR4 vTmp;
+								D3DXVec4Transform(&vTmp, &orgVertex->position, &g_pBoneMatrices[boneIndex[bone]]);
+								vTmp *= orgVertex->blendWeight[bone];
+								vertex->position.x += vTmp.x;
+								vertex->position.y += vTmp.y;
+								vertex->position.z += vTmp.z;
+							}
 							vertex++;
 							orgVertex++;
 	
