@@ -140,16 +140,19 @@ namespace tkEngine{
 							boneIndex[3] = orgVertex->blendIndices[3] * 255;
 							///////////////////////////////////////////////////////////////////
 							//ここにスキニングの処理を記述する。
-							//オリジナルとなるモデルの頂点		org->position
+							//オリジナルとなるモデルの頂点		orgVertex->position
 							//スキニング後の頂点の格納先		vertex->position
 							//ボーン行列のアクセスの仕方		g_pBoneMatrices[boneIndex[bone]]
 							//スキンウェイト					orgVertex->blendWeight[bone]
 							///////////////////////////////////////////////////////////////////
-							//次の頂点へ。
-							for (int bone = 0; bone < 2; bone++) {
+			
+							for (int bone = 0; bone < 2; bone++) {	//骨は２本。
 								D3DXVECTOR4 vTmp;
+								//元のモデルの頂点をボーン行列で変換して、その結果をvTmpに格納する。
 								D3DXVec4Transform(&vTmp, &orgVertex->position, &g_pBoneMatrices[boneIndex[bone]]);
+								//上で計算したアニメーション後の頂点座標にスキンウェイト(重み)を乗算する。
 								vTmp *= orgVertex->blendWeight[bone];
+								//vertex->positionに上のvTmpを加算する。
 								vertex->position.x += vTmp.x;
 								vertex->position.y += vTmp.y;
 								vertex->position.z += vTmp.z;
