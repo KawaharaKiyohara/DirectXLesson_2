@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "game.h"
+#include "Bullet.h"
 
 Player::Player()
 {
+	bulletFireInterval = 0;
 }
 
 
@@ -47,6 +49,18 @@ void Player::Update()
 		position.x -= 0.02f;
 		D3DXQuaternionRotationAxis(&addRot, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), -0.1f);
 		rotation *= addRot;
+	}
+	if (GetAsyncKeyState('A') && bulletFireInterval == 0) {
+		Bullet* bullet = new Bullet();
+		D3DXVECTOR3 bulletPos = position;
+		bulletPos.y += 0.8f;
+		bullet->Start(bulletPos, D3DXVECTOR3(0.0f, 0.1f, 0.0f));
+		game->AddPlayerBullets(bullet);
+		bulletFireInterval = 5;
+	}
+	bulletFireInterval--;
+	if (bulletFireInterval < 0) {
+		bulletFireInterval = 0;
 	}
 	animation.Update(1.0f / 60.0f);
 	model.UpdateWorldMatrix(position, rotation, D3DXVECTOR3(1.0f, 1.0f, 1.0f));

@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "game.h"
 #include "Enemy.h"
+#include "Bullet.h"
 
 /*!
  * @brief	コンストラクタ。
@@ -18,6 +19,9 @@ Game::~Game()
 {
 	for (auto enemy : enemyList) {
 		delete enemy;
+	}
+	for (auto bullet : playerBullets) {
+		delete bullet;
 	}
 }
 /*!
@@ -46,8 +50,25 @@ void Game::Start()
  */
 void Game::Update()
 {
-	for (auto enemy : enemyList) {
-		enemy->Update();
+	auto enemyIt = enemyList.begin();
+	while(enemyIt != enemyList.end()){	
+		if (!(*enemyIt)->Update()) {
+			//死亡。
+			enemyIt = enemyList.erase(enemyIt);
+		}
+		else {
+			enemyIt++;
+		}
+	}
+	auto bulletIt = playerBullets.begin();
+	while( bulletIt != playerBullets.end()) {
+		if (!(*bulletIt)->Update()) {
+			//死亡
+			bulletIt = playerBullets.erase(bulletIt);
+		}
+		else {
+			bulletIt++;
+		}
 	}
 	player.Update();
 	camera.Update();
@@ -59,6 +80,9 @@ void Game::Render()
 {
 	for (auto enemy : enemyList) {
 		enemy->Render();
+	}
+	for (auto bullet : playerBullets) {
+		bullet->Render();
 	}
 	player.Render();
 }

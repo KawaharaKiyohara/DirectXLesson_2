@@ -7,6 +7,7 @@
 #include "Player.h"
 
 class Enemy;
+class Bullet;
 
 /*!
  * @brief	ゲームクラス。
@@ -40,10 +41,18 @@ public:
 	{
 		return &camera;
 	}
+	/*!
+	* @brief	プレイヤーが放った弾を追加。
+	*/
+	void AddPlayerBullets(Bullet* bullet)
+	{
+		playerBullets.push_back(bullet);
+	}
 private:
 	Camera camera;
 	Player player;
 	std::list<Enemy*> enemyList;	//敵
+	std::list<Bullet*> playerBullets;	//プレイヤーが発射した弾
 };
 
 extern Game* game;

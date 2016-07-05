@@ -5,7 +5,7 @@ public:
 	Enemy();
 	~Enemy();
 	void Start(const D3DXVECTOR3& pos);
-	void Update();
+	bool Update();
 	void Render();
 private:
 	SkinModel model;
