@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "game.h"
+#include "bullet.h"
 
 SkinModelData* Enemy::modelData = NULL;
 
@@ -39,7 +40,6 @@ void Enemy::Start(const D3DXVECTOR3& pos)
 }
 bool Enemy::Update()
 {
-	//€–S‚µ‚½‚çfalse‚ğ•Ô‚·‚æ‚¤‚ÉB
 	return true;
 }
 void Enemy::Render()

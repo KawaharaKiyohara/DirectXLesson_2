@@ -48,6 +48,20 @@ public:
 	{
 		playerBullets.push_back(bullet);
 	}
+	/*!
+	* @brief	プレイヤーが放った弾のリストを取得。
+	* @code
+		サンプルコード
+		const std::list<Bullet*>& bulletList = game->GetPlayerBullet();
+		for(auto bullet : bulletList){
+			bullet->Render();
+        }
+ 	  @endcode
+	*/
+	const std::list<Bullet*>& GetPlayerBullet()
+	{
+		return playerBullets;
+	}
 private:
 	Camera camera;
 	Player player;
