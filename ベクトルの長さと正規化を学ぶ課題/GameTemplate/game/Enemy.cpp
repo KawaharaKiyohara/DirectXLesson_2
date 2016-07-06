@@ -13,6 +13,7 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	delete modelData;
+	modelData = NULL;
 }
 void Enemy::Start(const D3DXVECTOR3& pos)
 {

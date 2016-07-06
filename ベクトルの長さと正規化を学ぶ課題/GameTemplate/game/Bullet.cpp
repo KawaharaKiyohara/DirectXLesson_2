@@ -14,6 +14,8 @@ Bullet::Bullet()
 
 Bullet::~Bullet()
 {
+	delete modelData;
+	modelData = NULL;
 }
 void Bullet::Start(const D3DXVECTOR3& pos, const D3DXVECTOR3& moveSpeed)
 {
