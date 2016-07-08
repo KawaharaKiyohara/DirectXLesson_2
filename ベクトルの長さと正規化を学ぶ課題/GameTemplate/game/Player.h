@@ -15,6 +15,5 @@ private:
 	D3DXQUATERNION rotation;	//回転
 	Light light;
 	int bulletFireInterval;	//弾丸をもう一度打てるようになるまでのインターバル
-	bool isGameOver;		//ゲームオーバーフラグ。
 };
 

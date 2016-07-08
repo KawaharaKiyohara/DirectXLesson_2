@@ -5,7 +5,6 @@
 #include "game.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include <time.h>
 
 /*!
  * @brief	コンストラクタ。
@@ -30,8 +29,6 @@ Game::~Game()
  */
 void Game::Start()
 {
-	//乱数を初期化。
-	srand((unsigned int)time(NULL));
 	//カメラ初期化。
 	camera.Init();
 	camera.SetEyePt(D3DXVECTOR3(0.0f, 3.0f, 10.0f));
@@ -73,17 +70,6 @@ void Game::Update()
 			bulletIt++;
 		}
 	}
-	bulletIt = enemyBullets.begin();
-	while (bulletIt != enemyBullets.end()) {
-		if (!(*bulletIt)->Update()) {
-			//死亡
-			bulletIt = enemyBullets.erase(bulletIt);
-		}
-		else {
-			bulletIt++;
-		}
-	}
-
 	player.Update();
 	camera.Update();
 }
@@ -96,9 +82,6 @@ void Game::Render()
 		enemy->Render();
 	}
 	for (auto bullet : playerBullets) {
-		bullet->Render();
-	}
-	for (auto bullet : enemyBullets) {
 		bullet->Render();
 	}
 	player.Render();

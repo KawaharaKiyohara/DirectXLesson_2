@@ -49,13 +49,6 @@ public:
 		playerBullets.push_back(bullet);
 	}
 	/*!
-	* @brief	敵が放った弾を追加。
-	*/
-	void AddEnemyBullets(Bullet* bullet)
-	{
-		enemyBullets.push_back(bullet);
-	}
-	/*!
 	* @brief	プレイヤーが放った弾のリストを取得。
 	* @code
 		サンプルコード
@@ -69,19 +62,11 @@ public:
 	{
 		return playerBullets;
 	}
-	/*!
-	* @brief	敵が放った弾のリストを取得。
-	*/
-	const std::list<Bullet*>& GetEnemyBullet()
-	{
-		return enemyBullets;
-	}
 private:
 	Camera camera;
 	Player player;
 	std::list<Enemy*> enemyList;	//敵
 	std::list<Bullet*> playerBullets;	//プレイヤーが発射した弾
-	std::list<Bullet*> enemyBullets;	//敵が発射した弾丸。
 };
 
 extern Game* game;
