@@ -6,6 +6,7 @@
 Player::Player()
 {
 	bulletFireInterval = 0;
+	isGameOver = false;
 }
 
 
@@ -38,6 +39,9 @@ void Player::Start()
 }
 void Player::Update()
 {
+	if (!isGameOver) {
+		return;
+	}
 	D3DXQUATERNION addRot;
 	if (GetAsyncKeyState(VK_LEFT))
 	{

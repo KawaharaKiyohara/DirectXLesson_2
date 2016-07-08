@@ -4,9 +4,10 @@
 #include "bullet.h"
 
 SkinModelData* Enemy::modelData = NULL;
-
+const int BULLET_FIRE_INTERVAL = 2;
 Enemy::Enemy()
 {
+	bulletFireInterval = BULLET_FIRE_INTERVAL;
 }
 
 
@@ -41,6 +42,25 @@ void Enemy::Start(const D3DXVECTOR3& pos)
 }
 bool Enemy::Update()
 {
+	const auto& bulletList = game->GetPlayerBullet();
+	for (auto bullet : bulletList) {
+		D3DXVECTOR3 diff = bullet->GetPosition() - position;
+		float len = D3DXVec3Length(&diff);
+		if (len < 0.2f) {
+			return false;
+		}
+	}
+	bulletFireInterval--;
+	if (bulletFireInterval < 0) {
+		if ((rand() % 100) < 2) {
+			//10フレームに一度2%の確率で弾丸を射出する。
+			Bullet* bullet = new Bullet;
+			D3DXVECTOR3 bulletPos = position;
+			bullet->Start(bulletPos, D3DXVECTOR3(0.0f, -0.05f, 0.0f));
+			game->AddEnemyBullets(bullet);
+		}
+		bulletFireInterval = BULLET_FIRE_INTERVAL;
+	}
 	return true;
 }
 void Enemy::Render()
