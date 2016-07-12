@@ -64,14 +64,18 @@ void Player::Update()
 		bl->Start(bulletPos, direction_z * -40.0f);
 		game->AddBullet(bl);
 	}
+	//カメラが向いている方向に進む。
 	direction_z = game->GetGameCamera().GetCameraDir();
 	D3DXVec3Normalize(&moveDir, &moveDir);
+	//カメラの向いている方向と、上ベクトルとの外積を計算すると横移動のベクトルが求まる。
 	D3DXVec3Cross(&direction_x, &direction_z, &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	position += moveDir * moveSpeed;
+	//回転を計算。
 	float angle = acos(D3DXVec3Dot(&direction_x, &D3DXVECTOR3(1.0f, 0.0f, 0.0f)));
 	D3DXVECTOR3 axis;
 	D3DXVec3Cross(&axis, &direction_x, &D3DXVECTOR3(1.0f, 0.0f, 0.0f));
 	D3DXQuaternionRotationAxis(&rotation, &axis, -angle);
+	//ワールド行列を更新。
 	model.UpdateWorldMatrix(position, rotation, D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 }
 void Player::Render()
