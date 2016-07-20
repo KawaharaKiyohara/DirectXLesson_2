@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "game.h"
+#include "Bullet.h"
 
 namespace {
 	const float PI = 3.14159265358979323846f;
@@ -15,8 +16,6 @@ Enemy::Enemy() :
 
 Enemy::~Enemy()
 {
-	delete modelData;
-	modelData = NULL;
 }
 void Enemy::Start(const D3DXVECTOR3& pos)
 {
@@ -58,6 +57,13 @@ bool Enemy::Update()
 {
 	moveFrameCount++;
 	if (state == eState_Search) {
+		const std::list<Bullet*>& bulletList = game->GetBulletList();
+		for (auto bullet : bulletList) {
+			D3DXVECTOR3 diff = bullet->GetPosition() - position;
+			if (D3DXVec3Length(&diff) < 1.0f) {
+				return false;
+			}
+		}
 		//’Tõó‘ÔB
 		if (moveFrameCount % 120 == 0) {
 			//•ûŒü“]Š·
@@ -67,6 +73,7 @@ bool Enemy::Update()
 			rotation *= qAdd;
 		}
 		position += direction * 0.05f;
+
 	}
 	else if (state == eState_Find) {
 		//”­Œ©ó‘ÔB

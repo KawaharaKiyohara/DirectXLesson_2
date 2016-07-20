@@ -57,6 +57,13 @@ public:
 	{
 		bulletList.push_back(bl);
 	}
+	/*!
+	* @brief	弾丸のリストを取得。
+	*/
+	const std::list<Bullet*>& GetBulletList()
+	{
+		return bulletList;
+	}
 private:
 	GameCamera gameCamera;			//ゲームカメラ。
 	Player player;					//プレイヤー。
