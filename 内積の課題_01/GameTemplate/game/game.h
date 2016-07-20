@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "GameCamera.h"
 #include "Map.h"
+#include "CourceDef.h"
 
 class Enemy;
 class Bullet;
@@ -51,9 +52,10 @@ public:
 		return gameCamera;
 	}
 private:
-	GameCamera gameCamera;			//ゲームカメラ。
-	Player player;					//プレイヤー。
-	Map map;						//地形。
+	GameCamera	gameCamera;			//ゲームカメラ。
+	Player		player;				//プレイヤー。
+	Map			map;				//地形。
+	CourceDef	courceDef;			//コース定義、
 };
 
 extern Game* game;

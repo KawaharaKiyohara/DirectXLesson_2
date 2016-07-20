@@ -6,5 +6,6 @@ class CourceDef
 public:
 	CourceDef();
 	~CourceDef();
+private:
 };
 
